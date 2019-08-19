@@ -2,10 +2,7 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - curl
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -19,81 +16,100 @@ search: true
 
 # Introduction
 
-Welcome to the Gameper API! You can use our API to access Gameper API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Gameper API 문서에 오신 것을 환영합니다.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+REST 형식의 Gameper API를 통해서 겜퍼 시스템에서 자산을 발행하고 전송할 수 있습니다.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+본 문서는 겜퍼 API를 어떻게 사용하는지에 관한 정보를 제공합니다.
 
-# Authentication
+# API KEY
 
-> To authorize, use this code:
+> To check available apis with your api key, use this code:
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```curl
+# With every request, you can just pass the correct header with each request
+curl "https://api.gameper.io/"
+  -H "Authorization: gamepergameper"
 ```
 
-```python
-import kittn
+> `gamepergameper` 부분을 고객님의 API키로 바꾸어주세요.
 
-api = kittn.authorize('meowmeowmeow')
-```
+겜퍼 API를 사용하기 위해서는 API 키가 필요합니다. API KEY는 [겜퍼](http://gameper.io)에 연락하면 받으실 수 있습니다.
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+API KEY를 사용하는 모든 요청은 다음의 헤더 값과 시그니쳐를 포함해야 합니다.
 
-```javascript
-const kittn = require('kittn');
+- GP-ACCESS-KEY API 키
+- GP-ACCESS-SIGN 시그니쳐
+- GP-ACCESS-TIMESTAMP 타임스탬프
 
-let api = kittn.authorize('meowmeowmeow');
-```
+모든 요청은 content type: application/json 헤더를 가져아하고 데이터는 유효한 JSON 스타일이어야 합니다..
 
-> Make sure to replace `meowmeowmeow` with your API key.
+GP-ACCESS-SIGN 헤더는 sha256(timestamp + method + request-path + body(string concatenation))을 secret key로 사인한 값입니다. timestamp 값은 헤더의 timestamp와 같아야 합니다.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+body는 요청 값들을 공백을 제외하고 단순히 붙인 값입니다. GET 요청의 경우 생략됩니다.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+요청 메소드는 대문자여야 합니다(GET, POST).
 
-`Authorization: meowmeowmeow`
+GP-ACCESS-TIMESTAMP 헤더는 Unix timestamp의 second 단위 입니다.
+
+Timestamp 값은 실제 요청 시각과 10초 이상 차이가 나면 거절됩니다. 
+
+
+`GP-ACCESS-KEY: gamepergameper`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<code>gamepergameper</code> 부분을 고객님의 API 키로 바꾸셔야 합니다..
+베타 버전 Gameper API는 GP-ACCESS-KEY 헤더만 필요합니다.
 </aside>
 
-# Kittens
+# Assets
+
+## Get Balance
+
+```curl
+curl "http://api.gameper.io/v1/assets/balance/GPToken/0x9d6d492bD500DA5B33cf95A5d610a73360FcaAa0"
+  -H "GP-ACCESS-KEY: gamepergameper"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "asset_id": "GPToken",
+  "uri": "Gameper Token",
+  "balance": "10000",
+  "value": 100
+}
+```
+
+유저의 현재 잔고를 가져옵니다.
+
+### HTTP Request
+
+`GET http://api.gameper.io/v1/assets/balance/<ASSET_ID>/<USER_ADDRESS>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ASSET_ID | 자산 ID
+USER_ADDRESS | 유저 주소(식별값)
+
+## Mint
+
+## Transfer
+
+## Total Supply
+
+## Swap
+
+## Approve
+
 
 ## Get All Kittens
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
 
 > The above command returns JSON structured like this:
 
@@ -135,30 +151,9 @@ Remember — a happy kitten is an authenticated kitten!
 
 ## Get a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
+```curl
 curl "http://example.com/api/kittens/2"
   -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
 ```
 
 > The above command returns JSON structured like this:
@@ -189,31 +184,10 @@ ID | The ID of the kitten to retrieve
 
 ## Delete a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
+```curl
 curl "http://example.com/api/kittens/2"
   -X DELETE
   -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
 ```
 
 > The above command returns JSON structured like this:
