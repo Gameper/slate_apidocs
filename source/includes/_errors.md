@@ -1,22 +1,17 @@
 # Errors
 
 <aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
+겜퍼 API가 실패하면 다음의 코드가 반환됩니다. 음수 값은 블록체인 스마트 컨트랙트에서의 반환값입니다.
 </aside>
 
-The Kittn API uses the following error codes:
+The Gamper API uses the following error codes:
 
 
 Error Code | Meaning
 ---------- | -------
 400 | Bad Request -- Your request is invalid.
 401 | Unauthorized -- Your API key is wrong.
-403 | Forbidden -- The kitten requested is hidden for administrators only.
-404 | Not Found -- The specified kitten could not be found.
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method.
-406 | Not Acceptable -- You requested a format that isn't json.
-410 | Gone -- The kitten requested has been removed from our servers.
-418 | I'm a teapot.
-429 | Too Many Requests -- You're requesting too many kittens! Slow down!
+403 | Forbidden -- The api requested is hidden for administrators only.
+404 | Not Found -- The specified api could not be found.
 500 | Internal Server Error -- We had a problem with our server. Try again later.
 503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
