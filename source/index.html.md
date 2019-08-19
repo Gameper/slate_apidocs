@@ -97,7 +97,7 @@ USER_ADDRESS | 유저 주소(식별값)
 curl "http://api.gameper.io/v1/fabric/jp/mint" \
   -X POST \
   -H "GP-ACCESS-KEY: gamepergameper" \
-  -H "Content-Type" application/json"
+  -H "Content-Type": application/json"
   -H "type: Org1" \
   -d '{
     "asset_id":"GPToken",
@@ -149,7 +149,7 @@ uri | 추가 정보
 curl "http://api.gameper.io/v1/fabric/jp/transfer" \
   -X POST \
   -H "GP-ACCESS-KEY: gamepergameper" \
-  -H "Content-Type" application/json"
+  -H "Content-Type": application/json"
   -H "type: Org1" \
   -d '{
     "asset_id":"GPToken",
